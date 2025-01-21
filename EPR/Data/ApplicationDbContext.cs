@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using EPR.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EPR.Data
@@ -9,5 +10,7 @@ namespace EPR.Data
             : base(options)
         {
         }
+
+        public DbSet<Employee> Employees { get; set; }
     }
 }
