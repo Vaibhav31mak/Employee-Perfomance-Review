@@ -142,7 +142,6 @@ C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\staticwebassets\msbuild.bui
 C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.EPR.props
 C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.EPR.props
 C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\EPR.csproj.Up2Date
 C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\EPR.dll
 C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\refint\EPR.dll
@@ -271,3 +270,4 @@ C:\Users\91704\source\repos\EPR\EPR\bin\Debug\net8.0\runtimes\win\lib\net7.0\Mic
 C:\Users\91704\source\repos\EPR\EPR\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\91704\source\repos\EPR\EPR\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\91704\source\repos\EPR\EPR\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\Users\91704\source\repos\EPR\EPR\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
