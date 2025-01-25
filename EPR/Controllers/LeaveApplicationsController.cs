@@ -67,30 +67,6 @@ namespace EPR.Controllers
         public async Task<IActionResult> Create(LeaveApplication leaveApplication)
         {
 
-            if (DateTime.TryParseExact(
-                leaveApplication.StartDate.ToString(),
-                "yyyy-MM-ddTHH:mm",
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out var parsedStartDate))
-            {
-                leaveApplication.StartDate = parsedStartDate;
-            }
-
-            if (DateTime.TryParseExact(
-               leaveApplication.EndDate.ToString(),
-               "yyyy-MM-ddTHH:mm",
-               CultureInfo.InvariantCulture,
-               DateTimeStyles.None,
-               out var parsedEndDate))
-            {
-                leaveApplication.EndDate = parsedEndDate;
-            }
-            else
-            {
-                ModelState.AddModelError(nameof(leaveApplication.EndDate), "Invalid EndDate format.");
-            }
-
             var pendingStatus = await _context.SystemCodeDetails
                 .Include(x => x.SystemCode)
                 .Where(y => y.SystemCode.Code == "LeaveApprovalStatus" && y.Code == "Pending")
@@ -105,15 +81,15 @@ namespace EPR.Controllers
                 return View(leaveApplication);
             }
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid )
+            //{
                 leaveApplication.CreateOn = DateTime.Now;
                 leaveApplication.CreateById = "Temporary User";
                 leaveApplication.StatusId = pendingStatus.Id;
                 _context.Add(leaveApplication);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            //}
 
             ViewData["DurationId"] = new SelectList(_context.SystemCodeDetails.Include(x => x.SystemCode).Where(y => y.SystemCode.Code == "LeaveDuration"), "Id", "Description", leaveApplication.DurationId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "id", "FullName", leaveApplication.EmployeeId);
@@ -131,14 +107,15 @@ namespace EPR.Controllers
             }
 
             var leaveApplication = await _context.LeaveApplications.FindAsync(id);
+
             if (leaveApplication == null)
             {
                 return NotFound();
             }
-            ViewData["DurationId"] = new SelectList(_context.SystemCodeDetails, "Id", "Description", leaveApplication.DurationId);
+
+            ViewData["DurationId"] = new SelectList(_context.SystemCodeDetails.Include(x => x.SystemCode).Where(y => y.SystemCode.Code == "LeaveDuration"), "Id", "Description", leaveApplication.DurationId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "id", "FullName", leaveApplication.EmployeeId);
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveTypes, "Id", "Name", leaveApplication.LeaveTypeId);
-            ViewData["StatusId"] = new SelectList(_context.SystemCodeDetails, "Id", "Description", leaveApplication.StatusId);
             return View(leaveApplication);
         }
 
@@ -158,6 +135,10 @@ namespace EPR.Controllers
             {
                 try
                 {
+                    var pendingStatus = await _context.SystemCodeDetails
+                      .Include(x => x.SystemCode)
+                      .Where(y => y.SystemCode.Code == "LeaveApprovalStatus" && y.Code == "Pending")
+                      .FirstOrDefaultAsync();
                     leaveApplication.ModifiedOn = DateTime.Now;
                     leaveApplication.ModeifiedById = "Sample User";
 
