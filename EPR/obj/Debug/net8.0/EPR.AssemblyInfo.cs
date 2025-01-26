@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EPR")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a2e8c0e07ab2110eb2b00dfeecff269f4ec9969")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ea274260c5d9c1692e3c6e92b3e8b2e2dfdaa94")]
 [assembly: System.Reflection.AssemblyProductAttribute("EPR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EPR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
