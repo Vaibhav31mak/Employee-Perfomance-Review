@@ -124,9 +124,16 @@ namespace EPR.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,StartDate,EndDate,NoOfDays,DurationId,LeaveTypeId,Attachment,Description,StatusId,ApprovedById,ApprovedOn,RejectedById,RejectedOn,CreateById,CreateOn,ModeifiedById,ModifiedOn")] LeaveApplication leaveApplication)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,StartDate,EndDate,NoOfDays,DurationId,LeaveTypeId,Attachment,Description")] LeaveApplication leaveApplication)
         {
             if (id != leaveApplication.Id)
+            {
+                return NotFound();
+            }
+
+            // Fetch the existing leave application from the database
+            var existingLeaveApplication = await _context.LeaveApplications.FindAsync(id);
+            if (existingLeaveApplication == null)
             {
                 return NotFound();
             }
@@ -135,19 +142,38 @@ namespace EPR.Controllers
             {
                 try
                 {
+                    // Fetch Pending Status
                     var pendingStatus = await _context.SystemCodeDetails
-                      .Include(x => x.SystemCode)
-                      .Where(y => y.SystemCode.Code == "LeaveApprovalStatus" && y.Code == "Pending")
-                      .FirstOrDefaultAsync();
-                    leaveApplication.ModifiedOn = DateTime.Now;
-                    leaveApplication.ModeifiedById = "Sample User";
+                        .Include(x => x.SystemCode)
+                        .Where(y => y.SystemCode.Code == "LeaveApprovalStatus" && y.Code == "Pending")
+                        .FirstOrDefaultAsync();
 
-                    _context.Update(leaveApplication);
+                    // Update only the necessary fields
+                    existingLeaveApplication.EmployeeId = leaveApplication.EmployeeId;
+                    existingLeaveApplication.StartDate = leaveApplication.StartDate;
+                    existingLeaveApplication.EndDate = leaveApplication.EndDate;
+                    existingLeaveApplication.NoOfDays = leaveApplication.NoOfDays;
+                    existingLeaveApplication.DurationId = leaveApplication.DurationId;
+                    existingLeaveApplication.LeaveTypeId = leaveApplication.LeaveTypeId;
+                    existingLeaveApplication.Attachment = leaveApplication.Attachment;
+                    existingLeaveApplication.Description = leaveApplication.Description;
+                    existingLeaveApplication.ModifiedOn = DateTime.Now;
+                    existingLeaveApplication.ModeifiedById = "Sample User"; // Replace with actual user ID
+
+                    // Update status if pending exists
+                    if (pendingStatus != null)
+                    {
+                        existingLeaveApplication.StatusId = pendingStatus.Id;
+                    }
+
+                    _context.Update(existingLeaveApplication);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LeaveApplicationExists(leaveApplication.Id))
+                    if (!_context.LeaveApplications.Any(e => e.Id == leaveApplication.Id))
                     {
                         return NotFound();
                     }
@@ -156,14 +182,17 @@ namespace EPR.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
+            // Reload dropdown lists in case of validation errors
             ViewData["DurationId"] = new SelectList(_context.SystemCodeDetails, "Id", "Description", leaveApplication.DurationId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "id", "FullName", leaveApplication.EmployeeId);
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveTypes, "Id", "Name", leaveApplication.LeaveTypeId);
             ViewData["StatusId"] = new SelectList(_context.SystemCodeDetails, "Id", "Description", leaveApplication.StatusId);
+
             return View(leaveApplication);
         }
+
 
         // GET: LeaveApplications/Delete/5
         public async Task<IActionResult> Delete(int? id)

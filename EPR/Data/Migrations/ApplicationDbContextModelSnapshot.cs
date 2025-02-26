@@ -22,6 +22,56 @@ namespace EPR.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EPR.Models.Applicant", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Designation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhoneNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Resume")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Applicants");
+                });
+
             modelBuilder.Entity("EPR.Models.Bank", b =>
                 {
                     b.Property<int>("Id")
@@ -456,6 +506,26 @@ namespace EPR.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "eaddeb3d-dcbf-423c-9e40-3d9a0f1e7dba",
+                            Name = "HR",
+                            NormalizedName = "HR"
+                        },
+                        new
+                        {
+                            Id = "18fa8db1-ff9d-4eb0-a333-bad766024062",
+                            Name = "Applicant",
+                            NormalizedName = "APPLICANT"
+                        },
+                        new
+                        {
+                            Id = "fa7093d6-e5b9-48ce-aea3-df6b3d1b7839",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -546,6 +616,24 @@ namespace EPR.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b5197a51-c458-46ba-b85a-3404ac3e9f51",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b9dae7f7-41c1-4185-bfad-bd262c01c5b9",
+                            Email = "admin@epr.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EPR.COM",
+                            NormalizedUserName = "ADMIN@EPR.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIAoPXqEjXZRpAyPAiCCMROO2sqh74QIC7rPraHrlsXpwcGDDXYVYP8gLrHsE0qFbA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "55ed9d7c-4ec4-45b6-96b8-6d2250d96250",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@epr.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -610,6 +698,13 @@ namespace EPR.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "b5197a51-c458-46ba-b85a-3404ac3e9f51",
+                            RoleId = "eaddeb3d-dcbf-423c-9e40-3d9a0f1e7dba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EPR.Data;
 using EPR.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EPR.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -54,7 +56,7 @@ namespace EPR.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Employee employee)
+        public async Task<IActionResult> Create(Employee employee)
         {
             employee.CreateById = "Vaibhav";
             employee.CreateOn = DateTime.Now;

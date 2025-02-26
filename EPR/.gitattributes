@@ -1,0 +1,3 @@
+*.js linguist-language=ignore
+node_modules/* linguist-vendored
+wwwroot/* linguist-vendored

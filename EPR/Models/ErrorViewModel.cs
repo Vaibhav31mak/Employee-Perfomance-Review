@@ -1,4 +1,4 @@
-namespace EPR.Models
+﻿namespace EPR.Models
 {
     public class ErrorViewModel
     {

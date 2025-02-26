@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -40,19 +45,41 @@
         </div>
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light p-0">
+            <ul class="navbar-nav d-flex align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                        <i class="fas fa-bars"></i>
+                    </a>
                 </li>
+
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
+                    <a asp-controller="Applicants" asp-action="Create" class="nav-link">Apply Now</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <form method="post" asp-area="Identity" asp-page="/Account/Logout">
+                            <button type="submit" class="nav-link btn btn-link p-0"
+                                    style="border: none; background: none; color: inherit;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a>
+                    </li>
+                }
             </ul>
+    
+
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
@@ -214,7 +241,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
-                            <a href="#" class="nav-link active">
+                            <a asp-controller="Home" asp-action="Index" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -318,7 +345,30 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Interviewee
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="Applicants" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Applicants</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="LeaveApplications" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Leave Applications</p>
+                                    </a>
+                                </li>
 
+                            </ul>
+                        </li>
                    </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
